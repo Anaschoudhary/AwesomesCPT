@@ -1,11 +1,11 @@
 {
-  "name": "juvo/wordpress-plugin-boilerplate",
-  "description": "A boilerplate for WordPress plugin development. Supercharged with bud.js, Autoloading, and PHPStan.",
+  "name": "anas/awesome-plugin",
+  "description": "Awesome Plugin, Autoloading",
   "license": "GPL-3.0-or-later",
   "authors": [
     {
-      "name": "Justin Vogt",
-      "email": "mail@justin-vogt.com",
+      "name": "Anas Choudhary",
+      "email": "anas9719@gmail.com",
       "homepage": "https://justin-vogt.com"
     }
   ],
@@ -23,7 +23,7 @@
   "prefer-stable": true,
   "autoload": {
     "psr-4": {
-      "Demo_Plugin\\": "src/"
+      "Awesome_Plugin\\": "src/"
     },
     "files": [
       "setup.php"
@@ -53,9 +53,9 @@
     },
     "strauss": {
       "target_directory": "vendor/vendor-prefixed",
-      "namespace_prefix": "Demo_Plugin\\Dependencies\\",
-      "classmap_prefix": "Demo_Plugin",
-      "constant_prefix": "DEMO_PLUGIN",
+      "namespace_prefix": "Awesome_Plugin\\Dependencies\\",
+      "classmap_prefix": "Awesome_Plugin",
+      "constant_prefix": "Awesome_Plugin",
       "exclude_from_prefix": {
         "file_patterns": []
       },
@@ -69,6 +69,7 @@
     }
   },
   "require": {
-    "php": ">=7.4"
+    "php": ">=7.4",
+    "johnbillion/extended-cpts": "*"
   }
 }

@@ -1,4 +1,4 @@
-=== Demo Plugin ===
+=== Awesome Plugin ===
 Contributors: (this should be a list of wordpress.org userid's)
 Tags: comments, spam
 Tested up to: 6.4.3

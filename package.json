@@ -1,5 +1,5 @@
 {
-  "name": "demo-plugin",
+  "name": "awesome-plugin",
   "type": "module",
   "devDependencies": {
     "@roots/bud": "^6.20.0",

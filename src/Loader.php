@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Demo_Plugin;
+namespace Awesome_Plugin;
 
 /**
  * Register all actions and filters for the plugin.
@@ -11,7 +11,8 @@ namespace Demo_Plugin;
  * run function to execute the list of actions and filters.
  *
  */
-class Loader {
+class Loader
+{
 
 	/**
 	 * The array of actions registered with WordPress.
@@ -52,12 +53,12 @@ class Loader {
 	 *
 	 * @since    1.0.0
 	 */
-	public function __construct() {
+	public function __construct()
+	{
 
 		$this->actions    = array();
 		$this->filters    = array();
 		$this->shortcodes = array();
-
 	}
 
 	/**
@@ -71,8 +72,9 @@ class Loader {
 	 *
 	 * @since    1.0.0
 	 */
-	public function add_action( string $hook, object $component, string $callback, int $priority = 10, int $accepted_args = 1 ): void {
-		$this->actions = $this->add( $this->actions, $hook, $component, $callback, $priority, $accepted_args );
+	public function add_action(string $hook, object $component, string $callback, int $priority = 10, int $accepted_args = 1): void
+	{
+		$this->actions = $this->add($this->actions, $hook, $component, $callback, $priority, $accepted_args);
 	}
 
 	/**
@@ -84,8 +86,9 @@ class Loader {
 	 *
 	 * @since    1.0.0
 	 */
-	public function add_shortcode( string $hook, object $component, string $callback ): void {
-		$this->shortcodes = $this->add( $this->shortcodes, $hook, $component, $callback );
+	public function add_shortcode(string $hook, object $component, string $callback): void
+	{
+		$this->shortcodes = $this->add($this->shortcodes, $hook, $component, $callback);
 	}
 
 	/**
@@ -97,8 +100,9 @@ class Loader {
 	 *
 	 * @return void
 	 */
-	public function add_cli( string $name, object $instance, array $args = [] ): void {
-		$this->cli[ $name ] = [
+	public function add_cli(string $name, object $instance, array $args = []): void
+	{
+		$this->cli[$name] = [
 			'instance' => $instance,
 			'args'     => $args
 		];
@@ -119,7 +123,8 @@ class Loader {
 	 * @since    1.0.0
 	 * @access   private
 	 */
-	private function add( array $hooks, string $hook, object $component, string $callback, int $priority = - 1, int $accepted_args = - 1 ): array {
+	private function add(array $hooks, string $hook, object $component, string $callback, int $priority = -1, int $accepted_args = -1): array
+	{
 
 		$hooks[] = array(
 			'hook'          => $hook,
@@ -130,7 +135,6 @@ class Loader {
 		);
 
 		return $hooks;
-
 	}
 
 	/**
@@ -144,8 +148,9 @@ class Loader {
 	 *
 	 * @since    1.0.0
 	 */
-	public function add_filter( string $hook, object $component, string $callback, int $priority = 10, int $accepted_args = 1 ): void {
-		$this->filters = $this->add( $this->filters, $hook, $component, $callback, $priority, $accepted_args );
+	public function add_filter(string $hook, object $component, string $callback, int $priority = 10, int $accepted_args = 1): void
+	{
+		$this->filters = $this->add($this->filters, $hook, $component, $callback, $priority, $accepted_args);
 	}
 
 	/**
@@ -153,39 +158,37 @@ class Loader {
 	 *
 	 * @since    1.0.0
 	 */
-	public function run(): void {
+	public function run(): void
+	{
 
-		foreach ( $this->filters as $hook ) {
-			add_filter( $hook['hook'], array(
+		foreach ($this->filters as $hook) {
+			add_filter($hook['hook'], array(
 				$hook['component'],
 				$hook['callback']
-			), $hook['priority'], $hook['accepted_args'] );
+			), $hook['priority'], $hook['accepted_args']);
 		}
 
-		foreach ( $this->actions as $hook ) {
-			add_action( $hook['hook'], array(
+		foreach ($this->actions as $hook) {
+			add_action($hook['hook'], array(
 				$hook['component'],
 				$hook['callback']
-			), $hook['priority'], $hook['accepted_args'] );
+			), $hook['priority'], $hook['accepted_args']);
 		}
 
-		foreach ( $this->shortcodes as $hook ) {
-			add_shortcode( $hook['hook'], array(
+		foreach ($this->shortcodes as $hook) {
+			add_shortcode($hook['hook'], array(
 				$hook['component'],
 				$hook['callback']
-			) );
+			));
 		}
 
 		// Check if WP_CLI is available
-		if ( ! empty( $this->cli ) && ! class_exists( 'WP_CLI' ) ) {
-			error_log( 'WP_CLI not found. Skipping WP-CLI commands registration.' );
-		} elseif ( ! empty( $this->cli ) ) {
-			foreach ( $this->cli as $name => $data ) {
-				\WP_CLI::add_command( $name, $data['instance'], $data['args'] );
+		if (!empty($this->cli) && !class_exists('WP_CLI')) {
+			error_log('WP_CLI not found. Skipping WP-CLI commands registration.');
+		} elseif (!empty($this->cli)) {
+			foreach ($this->cli as $name => $data) {
+				\WP_CLI::add_command($name, $data['instance'], $data['args']);
 			}
 		}
-
-
 	}
-
 }

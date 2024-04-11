@@ -1,6 +1,6 @@
 <?php
 
-namespace Demo_Plugin;
+namespace Awesome_Plugin;
 
 /**
  * Define the internationalization functionality.
@@ -9,21 +9,21 @@ namespace Demo_Plugin;
  * so that it is ready for translation.
  *
  */
-class i18n {
+class i18n
+{
 
     /**
      * Load the plugin text domain for translation.
      *
      * @since    1.0.0
      */
-    public function load_plugin_textdomain(): void {
+    public function load_plugin_textdomain(): void
+    {
 
         load_plugin_textdomain(
-            'demo-plugin',
+            'awesome-plugin',
             false,
-            dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
+            dirname(dirname(plugin_basename(__FILE__))) . '/languages/'
         );
-
     }
-
 }

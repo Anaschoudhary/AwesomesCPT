@@ -1,12 +1,14 @@
 <?php
 
 
-namespace Demo_Plugin;
+namespace Awesome_Plugin;
 
 
-class Activator {
+class Activator
+{
 
-    public static function activate(): void {
+    public static function activate(): void
+    {
+        flush_rewrite_rules();
     }
-
 }

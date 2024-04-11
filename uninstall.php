@@ -22,10 +22,10 @@
  * @link       https://juvo-design.de
  * @since      1.0.0
  *
- * @package    Demo_Plugin
+ * @package    Awesome_Plugin
  */
 
 // If uninstall not called from WordPress, then exit.
-if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
+if (!defined('WP_UNINSTALL_PLUGIN')) {
 	exit;
 }

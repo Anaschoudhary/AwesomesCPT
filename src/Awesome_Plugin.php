@@ -1,6 +1,6 @@
 <?php
 
-namespace Demo_Plugin;
+namespace Awesome_Plugin;
 
 /**
  * The core plugin class.
@@ -12,14 +12,14 @@ namespace Demo_Plugin;
  * version of the plugin.
  *
  * @since      1.0.0
- * @package    Demo_Plugin
- * @subpackage Demo_Plugin/includes
+ * @package    Awesome_Plugin
+ * @subpackage Awesome_Plugin/includes
  * @author     Justin Vogt <mail@juvo-design.de>
  */
-class Demo_Plugin
+class Awesome_Plugin
 {
 
-    const PLUGIN_NAME = 'demo-plugin';
+    const PLUGIN_NAME = 'awesome-plugin';
 
     /**
      * The loader that's responsible for maintaining and registering all hooks that power
@@ -60,7 +60,6 @@ class Demo_Plugin
         $this->set_locale();
         $this->define_admin_hooks();
         $this->define_public_hooks();
-
     }
 
     /**
@@ -76,7 +75,6 @@ class Demo_Plugin
     {
 
         $this->loader = new Loader();
-
     }
 
     /**
@@ -94,7 +92,6 @@ class Demo_Plugin
         $plugin_i18n = new i18n();
 
         $this->loader->add_action('plugins_loaded', $plugin_i18n, 'load_plugin_textdomain');
-
     }
 
     /**
@@ -108,9 +105,8 @@ class Demo_Plugin
             $this->enqueue_bud_entrypoint('admin');
         }, 100);
 
-		// Add Setup Command
-	    $this->loader->add_cli('setup', new Cli\Setup());
-
+        // Add Setup Command
+        $this->loader->add_cli('setup', new Cli\Setup());
     }
 
     /**
@@ -126,7 +122,6 @@ class Demo_Plugin
         add_action('wp_enqueue_scripts', function () {
             $this->enqueue_bud_entrypoint('frontend');
         }, 100);
-
     }
 
     /**
@@ -176,7 +171,7 @@ class Demo_Plugin
      */
     private function enqueue_bud_entrypoint(string $entry, array $localize_data = []): void
     {
-        $entrypoints_manifest = DEMO_PLUGIN_PATH . '/dist/entrypoints.json';
+        $entrypoints_manifest = Awesome_Plugin_PATH . '/dist/entrypoints.json';
 
         // parse json file
         $entrypoints = json_decode(file_get_contents($entrypoints_manifest));
@@ -194,8 +189,8 @@ class Demo_Plugin
                 foreach ($files as $file) {
                     if ($type == "js") {
                         wp_enqueue_script(
-                            self::PLUGIN_NAME. "/$file",
-                            DEMO_PLUGIN_URL . 'dist/' . $file,
+                            self::PLUGIN_NAME . "/$file",
+                            Awesome_Plugin_URL . 'dist/' . $file,
                             $bundle->dependencies ?? [],
                             $this->version,
                             true,
@@ -203,7 +198,7 @@ class Demo_Plugin
 
                         // Maybe localize js
                         if (!empty($localize_data)) {
-                            wp_localize_script(self::PLUGIN_NAME. "/$file", str_replace('-', '_', self::PLUGIN_NAME), $localize_data);
+                            wp_localize_script(self::PLUGIN_NAME . "/$file", str_replace('-', '_', self::PLUGIN_NAME), $localize_data);
 
                             // Unset after localize since we only need to localize one script per bundle so on next iteration will be skipped
                             unset($localize_data);
@@ -212,10 +207,10 @@ class Demo_Plugin
 
                     if ($type == "css") {
                         wp_enqueue_style(
-                            self::PLUGIN_NAME. "/$file",
-                            DEMO_PLUGIN_URL . 'dist/' . $file,
-			    [],
-			    $this->version,
+                            self::PLUGIN_NAME . "/$file",
+                            Awesome_Plugin_URL . 'dist/' . $file,
+                            [],
+                            $this->version,
                         );
                     }
                 }
@@ -224,19 +219,19 @@ class Demo_Plugin
     }
 
     /**
-	 * Generates a unique but deterministic key usable for object caching. The key is prefixed by the plugin name
-	 *
-	 * @param mixed[] $matching_data Pass any data that should be used to match the cache
-	 *
-	 * @return string
-	 */
-	public static function generate_cache_key(array $matching_data): string {
-		foreach($matching_data as $key => $value) {
-			$matching_data[ $key] = serialize($value);
-		}
+     * Generates a unique but deterministic key usable for object caching. The key is prefixed by the plugin name
+     *
+     * @param mixed[] $matching_data Pass any data that should be used to match the cache
+     *
+     * @return string
+     */
+    public static function generate_cache_key(array $matching_data): string
+    {
+        foreach ($matching_data as $key => $value) {
+            $matching_data[$key] = serialize($value);
+        }
 
-		$matching_data = implode('-', $matching_data);
-		return self::PLUGIN_NAME. '-'. md5($matching_data);
-	}
-
+        $matching_data = implode('-', $matching_data);
+        return self::PLUGIN_NAME . '-' . md5($matching_data);
+    }
 }
